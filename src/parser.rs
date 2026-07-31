@@ -94,7 +94,6 @@ impl ToTrack {
 #[derive(Debug)]
 enum Operators {
     None,
-    Some,
     Add,
     Subtract,
     Multiply,
@@ -259,48 +258,6 @@ impl CanCome {
 
         Err(format!("Nothing in is_feild_true matched which:{}" , which))
         //end of is_feild_true()
-    }
-
-    fn can_it_come(&mut self , present_oper: &Tokens) -> Result<bool , String> {
-        use Tokens::*;
-
-        //&(string , num , bracket , oper);
-        match *present_oper {
-            Str(_) => {
-                if let Err(message) = self.is_feild_true(0/* , &Operators::None*/) {
-                    return Err(format!("From can_it_come() present_oper matched {:?} matched but {}" , present_oper , message));
-                } else {
-                    self.make_these_true_false(&(false , false , true , true));
-                    return Ok(true);
-                }
-            },
-            Num(_) => {
-                if let Err(message) = self.is_feild_true(1/* , &Operators::None*/) {
-                    return Err(format!("From can_it_come() present_oper matched {:?} matched but {}" , present_oper , message));
-                } else {
-                    self.make_these_true_false(&(false , false , true , true));
-                    return Ok(true);
-                }
-            }
-            Bracket{..} => {
-                if let Err(message) = self.is_feild_true(2/* , &Operators::None*/) {
-                    return Err(format!("From can_it_come() present_oper matched {:?} matched but {}" , present_oper , message));
-                } else {
-                    self.make_these_true_false(&(true , true , true , true));
-                    return Ok(true);
-                }
-            }
-            Oper(_/*ref operator*/) => {
-                if let Err(message) = self.is_feild_true(3/* , operator*/) {
-                    return Err(format!("From can_it_come() present_oper matched {:?} matched but {}" , present_oper , message));
-                } else {
-                    self.make_these_true_false(&(true , true , true , false));
-                    //self.oper.0 = operator.clone();
-                    return Ok(true);
-                }
-            }
-            _ => return Err(format!("Not matched in can_it_come present={:?}" , present_oper)),
-        }
     }
 }
 
