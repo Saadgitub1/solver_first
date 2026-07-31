@@ -30,19 +30,24 @@ pub fn parse(question: String) {
         tracking.last = if question_len_minus_one == index {true} else {false};
         tracking.bracket_ended = false;
 
-        match lifo(character , index , &mut stack) {
-            Ok(boolean) => {
-                if boolean {
-                    tracking.bracket_ended = boolean;
-                }
-            },
-            Err(error_message) => {
-                println!("{}" , error_message);
-                return();
-            },
+        if it_is_bracket(&character) {
+            match lifo(character , index , &mut stack) {
+                Ok(boolean) => {
+                    if boolean {
+                        tracking.bracket_ended = boolean;
+                    }
+                },
+                Err(error_message) => {
+                    println!("{}" , error_message);
+                    return();
+                },
+            }
         }
 
-        parsing(&character , &index , &mut tokenized , &mut tracking);
+        if let Err(message) = parsing(&character , &index , &mut tokenized , &mut tracking) {
+            eprintln!("{}" , message);
+            return ();
+        }
     }
 
     if stack.len() != 0 {
@@ -50,6 +55,7 @@ pub fn parse(question: String) {
         return;
     }
 
+    println!("{:#?}" , tokenized);
     println!("Passed");
     //lifo::going_into_string(&question);
 }

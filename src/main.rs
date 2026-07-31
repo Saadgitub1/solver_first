@@ -10,7 +10,7 @@ fn main() {
         string_question = getting_string.trim().to_string();
 
     } else {
-        string_question = String::from("[])");
+        string_question = String::from("x = 5 + b = 5");
     }
 
     println!("{}" , string_question);
