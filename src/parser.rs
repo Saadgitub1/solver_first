@@ -92,7 +92,7 @@ impl ToTrack {
 
 #[derive(Clone)]
 #[derive(Debug)]
-enum Operators {
+pub enum Operators {
     None,
     Add,
     Subtract,
@@ -125,10 +125,10 @@ impl Operators {
     }
 }
 
+#[derive(Clone)]
 #[derive(Debug)]
 pub enum Tokens {
     None,
-    Space,
     Str(String),
     Num(f32),
     Oper(Operators),

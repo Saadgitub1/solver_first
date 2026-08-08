@@ -10,10 +10,14 @@ fn main() {
         string_question = getting_string.trim().to_string();
 
     } else {
-        string_question = String::from("x = 5 + b = 5");
+        string_question = String::from("0 + 1 + 4 * 3");
     }
 
-    println!("{}" , string_question);
+    println!("Question: {}" , string_question);
 
-    solver1::parse(string_question);
+    let Some(tokenized) = solver1::parse(string_question) else {return ();};
+
+    solver1::solve(&tokenized);
+
+    // println!("{:#?}" , tokenized);
 }

@@ -1,9 +1,11 @@
 
 use std::collections::HashMap;
 use std::io;
-use parser::{lifo , it_is_bracket , ToTrack , Tokens , parsing};
+use parser::{lifo , it_is_bracket , ToTrack , Tokens , parsing , Operators};
+use to_solve::{solving , Sides , Values};
 
 mod parser;
+mod to_solve;
 
 pub fn line_from_cmd() -> String {
     let mut line = String::new();
@@ -13,11 +15,11 @@ pub fn line_from_cmd() -> String {
     line
 }
 
-pub fn parse(question: String) {
+pub fn parse(question: String) -> Option<Vec<Tokens>> {
 
     if question.len() == 0 {
         eprintln!("Empty question");
-        return;
+        return None;
     }
 
     let question_len_minus_one:usize = question.len() - 1;
@@ -39,23 +41,41 @@ pub fn parse(question: String) {
                 },
                 Err(error_message) => {
                     println!("{}" , error_message);
-                    return();
+                    return None;
                 },
             }
         }
 
         if let Err(message) = parsing(&character , &index , &mut tokenized , &mut tracking) {
             eprintln!("{}" , message);
-            return ();
+            return None;
         }
     }
 
     if stack.len() != 0 {
         println!("'{}' is missing" , stack.pop().expect("Problem in displaying bracket from stack.pop()"));
-        return;
+        return None;
     }
 
     println!("{:#?}" , tokenized);
-    println!("Passed");
+    println!("Passed from parse");
+
+    return Some(tokenized);
     //lifo::going_into_string(&question);
+}
+
+pub fn solve(tokenized: &Vec<Tokens>) {
+
+    let mut sides = Sides::new();
+    let mut values = Values::new();
+
+    solving(tokenized , &mut sides , &mut values);
+
+    // if track.lhs.len() != 0 {
+    //     solving(&mut track.lhs , &mut track);
+    // }
+    // if track.rhs.len() != 0 {}
+
+    println!("{:#?}" , values);
+    println!("{:#?}" , sides);
 }
