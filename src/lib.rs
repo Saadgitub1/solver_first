@@ -2,7 +2,7 @@
 use std::collections::HashMap;
 use std::io;
 use parser::{lifo , it_is_bracket , ToTrack , Tokens , parsing , Operators};
-use to_solve::{solving , Sides , Values};
+use to_solve::{Sides , solve_bracket};
 
 mod parser;
 mod to_solve;
@@ -57,25 +57,21 @@ pub fn parse(question: String) -> Option<Vec<Tokens>> {
         return None;
     }
 
-    println!("{:#?}" , tokenized);
-    println!("Passed from parse");
+    //println!("{:#?}" , tokenized);
+    //println!("Passed from parse");
 
     return Some(tokenized);
     //lifo::going_into_string(&question);
 }
 
-pub fn solve(tokenized: &Vec<Tokens>) {
+pub fn solve(tokenized: &Vec<Tokens>) -> Tokens {
 
     let mut sides = Sides::new();
-    let mut values = Values::new();
 
-    solving(tokenized , &mut sides , &mut values);
+    sides.make_lhs_rhs(tokenized);
+    let ans = solve_bracket(&tokenized);
+    return ans;
 
-    // if track.lhs.len() != 0 {
-    //     solving(&mut track.lhs , &mut track);
-    // }
-    // if track.rhs.len() != 0 {}
-
-    println!("{:#?}" , values);
-    println!("{:#?}" , sides);
+    //println!("{:#?}" , values);
+    //println!("{:#?}" , sides);
 }

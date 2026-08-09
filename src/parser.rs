@@ -12,6 +12,7 @@ pub struct ToTrack {
     pub oper: Operators,
     pub equal: bool,
     pub can_come: CanCome,
+    pub is_in_bracket: bool,
 }
 
 impl ToTrack {
@@ -27,6 +28,7 @@ impl ToTrack {
             oper: Operators::None,
             equal: false,
             can_come: CanCome::new_all_true(),
+            is_in_bracket: false,
         }
     }
     fn need_to_push(&mut self , tokenized: &mut Vec<Tokens>) -> Result<() , String> {
@@ -261,13 +263,10 @@ impl CanCome {
     }
 }
 
-pub fn parsing(character: &char , index: &usize , tokenized: &mut Vec<Tokens> , tracking: &mut ToTrack) -> Result<() , String> {
-    use Tokens::*;
+pub fn parsing(character: &char , _index: &usize , tokenized: &mut Vec<Tokens> , tracking: &mut ToTrack) -> Result<() , String> {
 
-    let mut character_type: Tokens;
     match Tokens::new_bracket_type(&character) {
-        Ok(type_came) => {
-            character_type = type_came;
+        Ok(_) => {
             match tracking.can_come.is_feild_true(2) {
                 Ok(boolean) => {
                     if boolean {
@@ -287,8 +286,10 @@ pub fn parsing(character: &char , index: &usize , tokenized: &mut Vec<Tokens> , 
                                 }
                             }
                             tracking.can_come.make_these_true_false(&(true , true , true , true));
+                            tracking.is_in_bracket = false;
                             return Ok(());
                         }
+                        tracking.is_in_bracket = true;
                         tracking.depth += 1;
                         tracking.prev = Tokens::Bracket{bracket: *character , content: Vec::new()};
                         reaching_content_to_push(tokenized , &mut tracking.depth , 0usize , Tokens::Bracket{bracket: *character , content: Vec::new()});
@@ -333,6 +334,9 @@ pub fn parsing(character: &char , index: &usize , tokenized: &mut Vec<Tokens> , 
             } else if Operators::is_it_operator(&character) {
                 tracking.oper = Operators::which_operator(&character);
                 if let Operators::Equal = tracking.oper {
+                    if tracking.is_in_bracket {
+                        return Err(format!("Eqaul cannot come in bracket"));
+                    }
                     if tracking.equal {
                         return Err(format!("There cannot be more than one equal"));
                     }
@@ -386,7 +390,7 @@ fn reaching_content_to_push(tokenized_or_content: &mut Vec<Tokens>, depth_to_rea
 
     let last_index = tokenized_or_content.len() - 1;
     match &mut tokenized_or_content[last_index] {
-        Tokens::Bracket{bracket , content} => {
+        Tokens::Bracket{bracket: _ , content} => {
             reaching_content_to_push(content , depth_to_reach , inner_depth , thing_to_push);
         },
         _ => (),
