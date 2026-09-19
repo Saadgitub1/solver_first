@@ -10,7 +10,7 @@ fn main() {
         string_question = getting_string.trim().to_string();
 
     } else {
-        string_question = String::from("[saad[ahmad{zimal}saad]ahmad]fatima");
+        string_question = String::from("");
     }
 
     println!("");
