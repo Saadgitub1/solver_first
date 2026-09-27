@@ -114,6 +114,7 @@ impl<'a> Sides<'a> {
 pub fn solve_bracket(side: &Vec<Tokens>) -> Tokens {
 
     let mut inner_vec: Vec<Tokens> = Vec::new();
+    let mut bracket_end = false;
  
     for token in side {
         if let Tokens::Bracket{bracket: _ , ref content} = *token {
@@ -129,15 +130,23 @@ pub fn solve_bracket(side: &Vec<Tokens>) -> Tokens {
             //     inner_vec.push(Tokens::Num(1f32));
             // } else {
                 inner_vec.push(solve_bracket(content));
+                bracket_end = true;
             // }
         }
         else {
+            if bracket_end {
+                match token {
+                    Tokens::Oper(_) => (),
+                    _ => inner_vec.push(Tokens::Oper(Operators::Multiply)),
+                }
+                bracket_end = false;
+            }
             let cloned_token = token.clone();
             inner_vec.push(cloned_token);
         }
     }
 
-    //println!("solve bracket {:?}" , inner_vec);
+    println!("solve bracket {:?}" , inner_vec);
     return solve_divide(&inner_vec);
 }
 
