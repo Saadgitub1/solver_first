@@ -2,6 +2,16 @@
 use crate::Tokens;
 use crate::Operators;
 
+fn power(a: f32 , b: f32) -> f32 {
+
+    let mut ans:f32 = 1.0;
+    for _ in 0..b as i32 {
+        ans = ans * a;
+    }
+
+    ans
+}
+
 impl Operators {
     fn is_mul(&self) -> bool {
         match *self {
@@ -23,6 +33,7 @@ impl Operators {
             Operators::Subtract => return a - b,
             Operators::Multiply => return a * b,
             Operators::Divide => return a / b,
+            Operators::Power => return power(a , b),
             _ => panic!(),
         }
     }
@@ -146,7 +157,7 @@ pub fn solve_bracket(side: &Vec<Tokens>) -> Tokens {
         }
     }
 
-    println!("solve bracket {:?}" , inner_vec);
+    //println!("solve bracket {:?}" , inner_vec);
     return solve_divide(&inner_vec);
 }
 

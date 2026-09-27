@@ -101,11 +101,12 @@ pub enum Operators {
     Multiply,
     Divide,
     Equal,
+    Power,
 }
 
 impl Operators {
     fn is_it_operator(character: &char) -> bool {
-        let operators = ['+' , '-' , '*' , '/' , '='];
+        let operators = ['+' , '-' , '*' , '/' , '=' , '^'];
         operators.contains(character)
     }
     fn which_operator(character: &char) -> Operators {
@@ -117,6 +118,7 @@ impl Operators {
         which_operator.insert('*' , Multiply);
         which_operator.insert('/' , Divide);
         which_operator.insert('=' , Equal);
+        which_operator.insert('^' , Power);
 
         let operator = which_operator
             .get(character).

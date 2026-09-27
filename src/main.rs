@@ -5,6 +5,11 @@ fn main() {
 
     if true {
 
+        println!("  Solver");
+        println!("  Works according to BODMAS");
+        println!("  Powers solve during + -");
+        println!("");
+
         println!("Enter question: ");
         let getting_string = solver1::line_from_cmd();
         string_question = getting_string.trim().to_string();
