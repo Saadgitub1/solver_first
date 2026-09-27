@@ -18,7 +18,9 @@ pub fn line_from_cmd() -> String {
 pub fn parse(question: String) -> Option<Vec<Tokens>> {
 
     if question.len() == 0 {
-        eprintln!("Empty question");
+        println!("________________________________________________________\n");
+        eprintln!("ERROR: Question Empty!");
+        println!("________________________________________________________\n");
         return None;
     }
 
@@ -40,20 +42,26 @@ pub fn parse(question: String) -> Option<Vec<Tokens>> {
                     }
                 },
                 Err(error_message) => {
-                    println!("{}" , error_message);
+                    println!("________________________________________________________\n");
+                    println!("ERROR: 'Breacket Error' {}" , error_message);
+                    println!("________________________________________________________\n");
                     return None;
                 },
             }
         }
 
         if let Err(message) = parsing(&character , &index , &mut tokenized , &mut tracking) {
-            eprintln!("{}" , message);
+            println!("________________________________________________________\n");
+            eprintln!("ERROR: {}" , message);
+            println!("________________________________________________________\n");
             return None;
         }
     }
 
     if stack.len() != 0 {
-        println!("'{}' is missing" , stack.pop().expect("Problem in displaying bracket from stack.pop()"));
+        println!("________________________________________________________\n");
+        println!("'ERROR: 'Breacket Error' {}' is missing" , stack.pop().expect("Problem in displaying bracket from stack.pop()"));
+        println!("________________________________________________________\n");
         return None;
     }
 

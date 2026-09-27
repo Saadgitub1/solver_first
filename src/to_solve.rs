@@ -42,6 +42,7 @@ impl Operators {
         match *self {
             Operators::Add => return a,
             Operators::Subtract => return -1f32 * a,
+            Operators::Power => a,
             _ => panic!(),
         }
     }
