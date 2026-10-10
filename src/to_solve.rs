@@ -4,7 +4,7 @@ use crate::Operators;
 
 fn power(a: f32 , b: f32) -> f32 {
 
-    println!("{a} , {b}");
+    //println!("{a} , {b}");
 
     let mut ans:f32 = 1.0;
     if b < 0.0f32 {
