@@ -4,9 +4,20 @@ use crate::Operators;
 
 fn power(a: f32 , b: f32) -> f32 {
 
+    println!("{a} , {b}");
+
     let mut ans:f32 = 1.0;
-    for _ in 0..b as i32 {
-        ans = ans * a;
+    if b < 0.0f32 {
+        let b = -1f32 * b;
+        for _ in 0..b as i32 {
+            ans = ans * a;
+        }
+
+        ans = 1.0f32 / ans;
+    } else {
+        for _ in 0..b as i32 {
+            ans = ans * a;
+        }
     }
 
     ans
