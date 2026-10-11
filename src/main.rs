@@ -1,5 +1,16 @@
 
+use std::env;
+
 fn main() {
+
+    let mut show_parser_result = false;
+    let args: Vec<String> = env::args().collect();
+    println!("{args:?}");
+    if args.len() > 1 {
+        if args[1] == "parser" {
+            show_parser_result = true;
+        }
+    }
 
     let string_question;
 
@@ -33,5 +44,8 @@ fn main() {
     println!("Ans: {:?}" , ans);
     println!("________________________________________________________\n");
 
-    //println!("{:#?}" , tokenized);
+    if show_parser_result {
+        println!("Parser Result\n");
+        println!("{:#?}" , tokenized);
+    }
 }
