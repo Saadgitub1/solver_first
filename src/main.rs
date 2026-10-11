@@ -5,7 +5,6 @@ fn main() {
 
     let mut show_parser_result = false;
     let args: Vec<String> = env::args().collect();
-    println!("{args:?}");
     if args.len() > 1 {
         if args[1] == "parser" {
             show_parser_result = true;
